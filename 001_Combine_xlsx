@@ -1,0 +1,84 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Feb 23 23:49:34 2019
+
+@author: ericliang
+"""
+
+## Data Manipulating ##
+## 01 Open and Combine file ##
+
+'''
+## Data Manipulating ##
+## 01 Open and Combine file ##
+This is a small program to combine xlsx files under same data format
+Some key principles -
+1. file formats are applied for xlsx and xls
+2. all files should be in same format
+3. each sheet in each file should be in same format.
+4. all sheets will be pulled
+
+'''
+
+## Set Environment and import packages ##
+import xlrd
+import xlsxwriter
+import os
+
+## Obtain the files ##   
+''' If you want to specify certain files, you can use this paragraph 
+files = ["D:/Py_Projects/001_Start/TestData/Test01.xlsx",
+              "D:/Py_Projects/001_Start/TestData/Test02.xlsx",
+              "D:/Py_Projects/001_Start/TestData/Test03.xlsx"]
+
+target = "D:/Py_Projects/001_Start/TestData/TestFinal.xlsx"
+'''
+
+'''
+I'm writting below as we will put all the files in to one same folder.
+'''
+## provide a certain dir and combine all the files in it ##
+targetdir = "D:/Py_Projects/001_Start/TestData"
+
+targetfile = "D:/Py_Projects/001_Start/TestData/TestFinal.xlsx"
+
+def file_name(file_dir):
+    for rootdir,subdir,dirfiles in os.walk(file_dir):
+        return dirfiles
+
+files = []
+for n in file_name(targetdir):  ## create all the source file in the file list #
+    fn = targetdir + "/" + n
+    files.append(fn)
+
+
+# Set a empty data set and input the title in it ##
+data = []
+
+twb = xlrd.open_workbook(files[0])
+sheet = twb.sheets()
+title = sheet[0].row_values(0)
+data.append(title)
+
+## loop to get the data into a two dimension list ##
+
+for file in files:
+    wb = xlrd.open_workbook(file)
+    for sheet in wb.sheets():
+        rownum = sheet.nrows
+        for row in range(1,rownum):  ## starting with 1 to skip the title row #
+            data.append(sheet.row_values(row))
+    
+print(data)    
+
+# Input data into target file ##
+workbook = xlsxwriter.Workbook(targetfile)
+worksheet = workbook.add_worksheet()
+font = workbook.add_format({"font_size":9})
+for i in range(len(data)):
+    for j in range(len(data[i])):
+        worksheet.write(i, j, data[i][j], font)
+        
+# Close workbook ##
+workbook.close()
+    
