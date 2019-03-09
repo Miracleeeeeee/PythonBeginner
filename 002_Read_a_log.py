@@ -45,7 +45,7 @@ def obtpo(x):
 
 for file in files:    
     logcontent = open(file).read()
-    str = '"inv"[^\s]*."payCode"[^\s]*."poNbr":"\d\d\d\d\d\d\d\d\d\d"'
+    str = '"inv"[^\s]*"payCode"[^\s]*"poNbr":"\d\d\d\d\d\d\d\d\d\d"'
     rst = re.findall(str,logcontent)
     
     ## apply to map and generate a new data set ##
