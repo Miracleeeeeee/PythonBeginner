@@ -1,0 +1,58 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Sun Mar 17 00:36:41 2019
+
+@author: ericliang
+"""
+
+import urllib.request
+import re
+import xlsxwriter
+
+## an easy sample ##
+testurl = "https://read.douban.com/provider/all"
+data = urllib.request.urlopen(testurl).read()
+data = data.decode("utf-8")   ## decode as utf-8
+key = '<div class="name">(.*?)</div>' ## regular expression
+targetdata = re.findall(key,data) ## obtain ata
+testfile = "D:/Py_Projects/001_Start/TestData02/test.xlsx" ## target file
+
+
+workbook = xlsxwriter.Workbook(testfile) ## put it into an excel ##
+worksheet = workbook.add_worksheet()
+font = workbook.add_format({"font_size":9})
+for i in range(len(targetdata)):
+    worksheet.write(i, 0, targetdata[i], font)
+
+workbook.close()
+
+## urllib.request.urlretrieve, this is used to save a html as local file##
+testurl = "https://read.douban.com/provider/all"
+targethtml = "D:/Py_Projects/001_Start/TestData02/Test.html"
+testhtml = urllib.request.urlretrieve(testurl,targethtml)
+
+## cache clean up ##
+urllib.request.urlcleanup()
+
+## obtain the info from the url ##
+testurl = "https://read.douban.com/provider/all"
+data = urllib.request.urlopen(testurl)
+infor = data.info()
+print(infor)
+
+## different code from URL ##
+testurl = "https://read.douban.com/provider/all"
+data = urllib.request.urlopen(testurl)
+code = data.getcode()
+print(code)
+
+## get URL from a url object##
+testurl = "https://read.douban.com/provider/all"
+data = urllib.request.urlopen(testurl)
+urltest = data.geturl()
+print(urltest)
+
+## set a timeout setting ##
+data = urllib.request.urlopen(testurl,timeout = 1)
+
+
