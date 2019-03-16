@@ -55,4 +55,30 @@ print(urltest)
 ## set a timeout setting ##
 data = urllib.request.urlopen(testurl,timeout = 1)
 
+## exception handling ##
+for i in range (0,100): ## try 100 times ##
+    try:
+        testdata = urllib.request.urlopen(testurl,timeout=1).read()
+        print(len(testdata))
+    except Exception as error: ## record error handling ##
+        print("Error description: " + str(error))
+        
+## url post ##
+keyword = "Python"
+testurl = "http://www.baidu.com/s?wd="+keyword ## make sure we are using HTTP instead of HTTPS ##
+req = urllib.request.Request(testurl)
+data = urllib.request.urlopen(req).read()
+print(len(data))
+
+# if oyu are using a chinese keyword ##
+keyword = urllib.request.quote(keyword)
+
+## send an username and password to a website ##
+requestdata = urllib.parse.urlencode({
+        "name":"userid",
+        "password":"password"
+        }).encode("UTF-8")
+req = urllib.request.Request(testurl,requestdata)
+
+##
 
