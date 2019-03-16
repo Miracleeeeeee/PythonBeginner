@@ -16,8 +16,9 @@ import os
 logfile = "D:/Py_Projects/000_Source_Data/001_APT_Logs/wapprobotlog 0307/host-robot-service.log" 
 '''
 
-targetdir = "D:/Py_Projects/000_Source_Data/001_Robot_Logs/robotlog 0308"
-targetfile = "D:/Py_Projects/000_Source_Data/001_Robot_Logs/Output/RobotLog.xlsx"
+targetdir = "D:/Py_Projects/000_Source_Data/001_Robot_Logs/robotlog 0307"
+logdate = targetdir[-4:]
+targetfile = "D:/Py_Projects/000_Source_Data/001_Robot_Logs/Output/RobotLog" + " " + logdate + ".xlsx"
 
 def file_name(file_dir):
     for rootdir,subdir,dirfiles in os.walk(file_dir):
@@ -45,7 +46,7 @@ def obtpo(x):
 
 for file in files:    
     logcontent = open(file).read()
-    str = '"inv"[^\s]*"payCode"[^\s]*"poNbr":"\d\d\d\d\d\d\d\d\d\d"'
+    str = '"inv":"\d\d\d\d\d\d\d\d".*?"poNbr":"\d\d\d\d\d\d\d\d\d\d"'
     rst = re.findall(str,logcontent)
     
     ## apply to map and generate a new data set ##
@@ -70,3 +71,5 @@ for i in range(len(dataset)):
 workbook.close()
 
 print(invoicecount)
+
+
