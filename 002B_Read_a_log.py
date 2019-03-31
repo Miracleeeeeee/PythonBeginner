@@ -34,7 +34,7 @@ for n in file_name(targetdir):  ## create all the source file in the file list #
     fn = targetdir + "/" + n
     files.append(fn)
     
-dataset = [['Ref','StartTime','EndTime','Inv_Count','PO_Count']]
+dataset = [['Ref','StartTime','EndTime','Transaction_Count']]
 
 flog = open(fulllogfile,'a+')
 for file in files:    
@@ -69,25 +69,13 @@ def obtstime(x):
 def obtedata(x):
     return x[0:19]
 
-def obtinv(x):
+def obttrs(x):
     invtemp = re.findall('"inv":"\d\d\d\d\d\d\d\d"',x)
     if len(invtemp) <= 1:
-        invcount = 1
-    elif invtemp[0] == invtemp[1]:
         invcount = 1
     else:
         invcount = len(invtemp)
     return invcount
-
-def obtpo(x):
-    potemp = re.findall('"poNbr":"\d\d\d\d\d\d\d\d\d\d"',x)
-    if len(potemp) <= 1:
-        pocount = 1
-    elif potemp[0] == potemp[1]:
-        pocount = 1
-    else:
-        pocount = len(potemp)
-    return pocount
 
 def obteid(x):
     return x[-11:-1]
@@ -98,8 +86,7 @@ def obtetime(x):
 ## apply map to obtain "received" part ##
 iddata = list(map(obtid,rst1))
 stimedata = list(map(obtstime,rst1))
-invdata = list(map(obtinv,rst1))
-podata = list(map(obtpo,rst1))
+trdata = list(map(obttrs,rst1))
 
 ## apply function and create a dictionary to obtain "Send" part ##
 eid = list(map(obteid,rst2))
@@ -114,8 +101,7 @@ for n in range(0,len(iddata)):
     dataset.append([iddata[n],
                     stimedata[n],
                     etimedit.get(iddata[n],'None'),
-                    invdata[n],
-                    podata[n]])
+                    trdata[n]])
 
 ''' Data Extraction '''
     
