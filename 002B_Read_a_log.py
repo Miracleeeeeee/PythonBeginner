@@ -53,7 +53,7 @@ rst1 = re.findall(str1,fulllog)
 str2 = '2019.*?Send:[\s]\[{"id":"\d\d\d\d\d\d\d\d\d\d"'
 rst2 = re.findall(str2,fulllog)
 
-# define two functions to obtian the invoice and po number, format is fixed ##
+# define couple functions to obtian the invoice and po number, format is fixed ##
 def obtid(x):
     fid = []
     allids = re.findall('"id":"\d\d\d\d\d\d\d\d\d\d"',x)
@@ -117,6 +117,8 @@ for n in range(0,len(iddata)):
                     invdata[n],
                     podata[n]])
 
+''' Data Extraction '''
+    
 # Input data into target file ##
 workbook = xlsxwriter.Workbook(targetfile)
 worksheet = workbook.add_worksheet()
